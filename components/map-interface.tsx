@@ -14,6 +14,7 @@ import { CardFooter } from "@/components/ui/card";
 import L from "leaflet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin, Pentagon, RectangleVertical, RotateCcw } from "lucide-react";
+import DayPrediction from "./day-prediction";
 
 type Coordinate = [number, number];
 type GeometryType = "Point" | "Polygon";
@@ -75,14 +76,14 @@ function AddZoomControl() {
 
 export default function MapInterface() {
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [isPolygon, setIsPolygon] = useState(false);
+  const [inputType, setInputType] = useState<"point" | "polygon">("point");
   const [apiResponse, setApiResponse] = useState<any>(null);
   const mapRef = useRef<L.Map | null>(null);
 
   const handleMapClick = useCallback(
     (latlng: L.LatLng) => {
       const { lat, lng } = latlng;
-      if (isPolygon) {
+      if (inputType === "polygon") {
         setMapData((prev) => {
           if (prev && prev.type === "Polygon") {
             return {
@@ -96,7 +97,7 @@ export default function MapInterface() {
         setMapData({ type: "Point", coordinates: [lat, lng] });
       }
     },
-    [isPolygon]
+    [inputType]
   );
 
   const handleSubmit = async () => {
@@ -171,7 +172,10 @@ export default function MapInterface() {
           zoomControl={false}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <MapEvents onMapClick={handleMapClick} isPolygon={isPolygon} />
+          <MapEvents
+            onMapClick={handleMapClick}
+            isPolygon={inputType === "polygon"}
+          />
           {mapData && mapData.type === "Point" && (
             <Marker position={mapData.coordinates as Coordinate} icon={icon} />
           )}
@@ -181,53 +185,58 @@ export default function MapInterface() {
           <AddZoomControl />
         </MapContainer>
       </div>
-      <div className="flex flex-col justify-between absolute bottom-[10px] left-[10px] top-[10px] z-50 p-4 bg-white rounded-lg border-2 border-whit2/20">
-        <Tabs
-          defaultValue="account"
-          className="w-64"
-          onValueChange={() => {
-            setMapData(null);
-          }}
-        >
-          <TabsList className="w-full">
-            <TabsTrigger value="account" className="w-full">
-              <MapPin className="size-3 text-muted-foreground mr-1" /> Punto
-            </TabsTrigger>
-            <TabsTrigger value="password" className="w-full">
-              <Pentagon className="size-3 text-muted-foreground mr-1" />
-              Polígono
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-        <Button
-          onClick={() => {
-            setIsPolygon(false);
-            setMapData(null);
-          }}
-          variant={!isPolygon ? "default" : "outline"}
-        >
-          Mark Point
-        </Button>
-        <Button
-          onClick={() => {
-            setIsPolygon(true);
-            setMapData(null);
-          }}
-          variant={isPolygon ? "default" : "outline"}
-        >
-          Create Polygon
-        </Button>
-        {isPolygon &&
+      <div className="flex flex-col justify-between absolute bottom-[10px] left-[10px] top-[10px] z-50 p-4 bg-card rounded-lg border-2 border-whit2/20">
+        <div className="grid gap-4">
+          <Tabs
+            value={inputType}
+            className="w-64"
+            onValueChange={(value) => {
+              setMapData(null);
+              setInputType(value as "point" | "polygon");
+            }}
+          >
+            <TabsList className="w-full">
+              <TabsTrigger value="point" className="w-full">
+                <MapPin className="size-3 text-muted-foreground mr-1" /> Punto
+              </TabsTrigger>
+              <TabsTrigger value="polygon" className="w-full">
+                <Pentagon className="size-3 text-muted-foreground mr-1" />
+                Polígono
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <div>
+            <p className="font-semibold text-lg">Cultivos recomendados</p>
+            <div>
+              <div className="flex justify-between">
+                <p>Soja</p>
+                <p>95%</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Trigo</p>
+                <p>91%</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Girasol</p>
+                <p>83%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {inputType === "polygon" &&
           mapData &&
           mapData.type === "Polygon" &&
           (mapData.coordinates as Coordinate[]).length > 2 && (
             <Button onClick={finishPolygon}>Finish Polygon</Button>
           )}
         <div className="flex flex-col gap-2">
-          <Button onClick={resetMap} variant="outline">
-            <RotateCcw className="size-3 text-muted-foreground mr-1" />
-            Reset
-          </Button>
+          {mapData && (
+            <Button onClick={resetMap} variant="outline">
+              <RotateCcw className="size-3 text-muted-foreground mr-1" />
+              Resetear
+            </Button>
+          )}
           <Button
             onClick={handleSubmit}
             disabled={
@@ -235,16 +244,23 @@ export default function MapInterface() {
               (mapData.type === "Polygon" &&
                 (mapData.coordinates as Coordinate[]).length < 3)
             }
+            className="font-semibold"
           >
-            Submit Data
+            Hacer prodicción
           </Button>
         </div>
       </div>
 
-      <div className="absolute bottom-[10px] right-[10px] bg-card">
-        <Button onClick={resetMap} variant="outline">
-          <RectangleVertical className="size-3 text-muted-foreground" />
-        </Button>
+      <div className="absolute bottom-[10px] right-[10px] bg-card rounded-lg border-2 border-whit2/20 p-2 flex gap-2">
+        <DayPrediction date="2024-10-4" temperature={30} />
+        <DayPrediction date="2024-10-5" temperature={32} />
+        <DayPrediction date="2024-10-6" temperature={33} />
+        <DayPrediction date="2024-10-7" temperature={29} />
+        <DayPrediction date="2024-10-8" temperature={29} />
+        <DayPrediction date="2024-10-9" temperature={30} />
+        <DayPrediction date="2024-10-10" temperature={31} />
+        <DayPrediction date="2024-10-11" temperature={22} />
+        <DayPrediction date="2024-10-12" temperature={25} />
       </div>
 
       <CardFooter>
