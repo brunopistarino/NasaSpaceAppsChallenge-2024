@@ -18,9 +18,10 @@ import CropPrediction from "./crop-prediction";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { ZoomControl } from "@/lib/utils";
 import { pointIcon } from "@/lib/utils";
+import { Geometry } from "@/lib/types";
 
 type Coordinate = [number, number];
-type InputType = "point" | "polygon";
+type InputType = "Point" | "Polygon";
 
 interface MapData {
   type: InputType;
@@ -39,7 +40,7 @@ function MapEvents({
   useMapEvents({
     click(e) {
       onMapClick(e.latlng);
-      if (inputType === "point") {
+      if (inputType === "Point") {
         map.flyTo(e.latlng, map.getZoom());
       }
     },
@@ -50,32 +51,42 @@ function MapEvents({
 
 export default function MapInterface() {
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [inputType, setInputType] = useState<InputType>("point");
+  const [inputType, setInputType] = useState<InputType>("Point");
   const [apiResponse, setApiResponse] = useState<any>(null);
   const mapRef = useRef<L.Map | null>(null);
 
   const handleMapClick = useCallback(
     (latlng: L.LatLng) => {
       const { lat, lng } = latlng;
-      if (inputType === "polygon") {
+      if (inputType === "Polygon") {
         setMapData((prev) => {
-          if (prev && prev.type === "polygon") {
+          if (prev && prev.type === "Polygon") {
             return {
-              type: "polygon",
+              type: "Polygon",
               coordinates: [...(prev.coordinates as Coordinate[]), [lat, lng]],
             };
           }
-          return { type: "polygon", coordinates: [[lat, lng]] };
+          return { type: "Polygon", coordinates: [[lat, lng]] };
         });
       } else {
-        setMapData({ type: "point", coordinates: [lat, lng] });
+        setMapData({ type: "Point", coordinates: [lat, lng] });
       }
     },
     [inputType]
   );
 
   const handleSubmit = async () => {
-    console.log(mapData);
+    if (!mapData) return;
+
+    const geometry: Geometry = {
+      type: mapData.type,
+      coordinates:
+        mapData.type === "Point"
+          ? (mapData.coordinates as number[])
+          : [mapData.coordinates as number[][]],
+    };
+
+    console.log(geometry);
   };
 
   const resetMap = () => {
@@ -91,7 +102,8 @@ export default function MapInterface() {
       <div className="h-screen">
         <MapContainer
           center={[0, 0]}
-          zoom={2}
+          zoom={3}
+          minZoom={3}
           style={{ height: "100%", width: "100%" }}
           ref={mapRef}
           className="z-0"
@@ -100,13 +112,13 @@ export default function MapInterface() {
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <MapEvents onMapClick={handleMapClick} inputType={inputType} />
-          {mapData && mapData.type === "point" && (
+          {mapData && mapData.type === "Point" && (
             <Marker
               position={mapData.coordinates as Coordinate}
               icon={pointIcon}
             />
           )}
-          {mapData && mapData.type === "polygon" && (
+          {mapData && mapData.type === "Polygon" && (
             <Polygon positions={mapData.coordinates as Coordinate[]} />
           )}
           <ZoomControl />
@@ -120,14 +132,14 @@ export default function MapInterface() {
               className="w-64"
               onValueChange={(value) => {
                 setMapData(null);
-                setInputType(value as "point" | "polygon");
+                setInputType(value as InputType);
               }}
             >
               <TabsList className="w-full">
-                <TabsTrigger value="point" className="w-full">
+                <TabsTrigger value="Point" className="w-full">
                   <MapPin className="size-3 text-muted-foreground mr-1" /> Punto
                 </TabsTrigger>
-                <TabsTrigger value="polygon" className="w-full">
+                <TabsTrigger value="Polygon" className="w-full">
                   <Pentagon className="size-3 text-muted-foreground mr-1" />
                   Polígono
                 </TabsTrigger>
