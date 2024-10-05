@@ -13,8 +13,10 @@ import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
 import L from "leaflet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MapPin, Pentagon, RectangleVertical, RotateCcw } from "lucide-react";
+import { MapPin, Pentagon, RotateCcw } from "lucide-react";
 import DayPrediction from "./day-prediction";
+import CropPrediction from "./crop-prediction";
+import { ScrollArea } from "./ui/scroll-area";
 
 type Coordinate = [number, number];
 type GeometryType = "Point" | "Polygon";
@@ -101,6 +103,8 @@ export default function MapInterface() {
   );
 
   const handleSubmit = async () => {
+    console.log(mapData);
+
     if (!mapData) return;
 
     const baseUrl =
@@ -185,82 +189,75 @@ export default function MapInterface() {
           <AddZoomControl />
         </MapContainer>
       </div>
-      <div className="flex flex-col justify-between absolute bottom-[10px] left-[10px] top-[10px] z-50 p-4 bg-card rounded-lg border-2 border-whit2/20">
-        <div className="grid gap-4">
-          <Tabs
-            value={inputType}
-            className="w-64"
-            onValueChange={(value) => {
-              setMapData(null);
-              setInputType(value as "point" | "polygon");
-            }}
-          >
-            <TabsList className="w-full">
-              <TabsTrigger value="point" className="w-full">
-                <MapPin className="size-3 text-muted-foreground mr-1" /> Punto
-              </TabsTrigger>
-              <TabsTrigger value="polygon" className="w-full">
-                <Pentagon className="size-3 text-muted-foreground mr-1" />
-                Polígono
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-          <div>
-            <p className="font-semibold text-lg">Cultivos recomendados</p>
+      <div className="absolute top-[10px] bottom-[10px] left-[10px] right-[10px] z-50 flex gap-[10px] pointer-events-none">
+        <div className="flex flex-col justify-between  p-4 bg-card rounded-lg border-2 border-whit2/20 pointer-events-auto">
+          <div className="grid gap-4">
+            <Tabs
+              value={inputType}
+              className="w-64"
+              onValueChange={(value) => {
+                setMapData(null);
+                setInputType(value as "point" | "polygon");
+              }}
+            >
+              <TabsList className="w-full">
+                <TabsTrigger value="point" className="w-full">
+                  <MapPin className="size-3 text-muted-foreground mr-1" /> Punto
+                </TabsTrigger>
+                <TabsTrigger value="polygon" className="w-full">
+                  <Pentagon className="size-3 text-muted-foreground mr-1" />
+                  Polígono
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
             <div>
-              <div className="flex justify-between">
-                <p>Soja</p>
-                <p>95%</p>
-              </div>
-              <div className="flex justify-between">
-                <p>Trigo</p>
-                <p>91%</p>
-              </div>
-              <div className="flex justify-between">
-                <p>Girasol</p>
-                <p>83%</p>
+              <p className="font-semibold text-lg">Cultivos recomendados</p>
+              <div>
+                <CropPrediction name="Soja" percentage={95} />
+                <CropPrediction name="Trigo" percentage={91} />
+                <CropPrediction name="Girasol" percentage={83} />
               </div>
             </div>
           </div>
-        </div>
 
-        {inputType === "polygon" &&
-          mapData &&
-          mapData.type === "Polygon" &&
-          (mapData.coordinates as Coordinate[]).length > 2 && (
-            <Button onClick={finishPolygon}>Finish Polygon</Button>
-          )}
-        <div className="flex flex-col gap-2">
-          {mapData && (
-            <Button onClick={resetMap} variant="outline">
-              <RotateCcw className="size-3 text-muted-foreground mr-1" />
-              Resetear
+          {inputType === "polygon" &&
+            mapData &&
+            mapData.type === "Polygon" &&
+            (mapData.coordinates as Coordinate[]).length > 2 && (
+              <Button onClick={finishPolygon}>Finish Polygon</Button>
+            )}
+          <div className="flex flex-col gap-2">
+            {mapData && (
+              <Button onClick={resetMap} variant="outline">
+                <RotateCcw className="size-3 text-muted-foreground mr-1" />
+                Resetear
+              </Button>
+            )}
+            <Button
+              onClick={handleSubmit}
+              disabled={
+                !mapData ||
+                (mapData.type === "Polygon" &&
+                  (mapData.coordinates as Coordinate[]).length < 3)
+              }
+              className="font-semibold"
+            >
+              Hacer predicción
             </Button>
-          )}
-          <Button
-            onClick={handleSubmit}
-            disabled={
-              !mapData ||
-              (mapData.type === "Polygon" &&
-                (mapData.coordinates as Coordinate[]).length < 3)
-            }
-            className="font-semibold"
-          >
-            Hacer prodicción
-          </Button>
+          </div>
         </div>
-      </div>
 
-      <div className="absolute bottom-[10px] right-[10px] bg-card rounded-lg border-2 border-whit2/20 p-2 flex gap-2">
-        <DayPrediction date="2024-10-4" temperature={30} />
-        <DayPrediction date="2024-10-5" temperature={32} />
-        <DayPrediction date="2024-10-6" temperature={33} />
-        <DayPrediction date="2024-10-7" temperature={29} />
-        <DayPrediction date="2024-10-8" temperature={29} />
-        <DayPrediction date="2024-10-9" temperature={30} />
-        <DayPrediction date="2024-10-10" temperature={31} />
-        <DayPrediction date="2024-10-11" temperature={22} />
-        <DayPrediction date="2024-10-12" temperature={25} />
+        <ScrollArea className="bg-card rounded-lg border-2 border-whit2/20 p-2 flex gap-2 overflow-x-auto mt-auto pointer-events-auto w-full">
+          <DayPrediction date="2024-10-4" temperature={30} />
+          <DayPrediction date="2024-10-5" temperature={32} />
+          <DayPrediction date="2024-10-6" temperature={33} />
+          <DayPrediction date="2024-10-7" temperature={29} />
+          <DayPrediction date="2024-10-8" temperature={29} />
+          <DayPrediction date="2024-10-9" temperature={30} />
+          <DayPrediction date="2024-10-10" temperature={31} />
+          <DayPrediction date="2024-10-11" temperature={22} />
+          <DayPrediction date="2024-10-12" temperature={25} />
+        </ScrollArea>
       </div>
 
       <CardFooter>
