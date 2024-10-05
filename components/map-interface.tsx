@@ -10,7 +10,6 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
-import { CardFooter } from "@/components/ui/card";
 import L from "leaflet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin, Pentagon, RotateCcw } from "lucide-react";
@@ -102,35 +101,35 @@ export default function MapInterface() {
   const handleSubmit = async () => {
     console.log(mapData);
 
-    if (!mapData) return;
+    // if (!mapData) return;
 
-    const baseUrl =
-      "https://climateserv.servirglobal.net/chirps/submitDataRequest/";
-    const params = new URLSearchParams({
-      datatype: mapData.type === "Point" ? "44" : "42",
-      begintime: "09/01/2024",
-      endtime: mapData.type === "Point" ? "04/01/2025" : "03/01/2025",
-      intervaltype: "0",
-      operationtype: mapData.type === "Point" ? "0" : "1",
-      isZip_CurrentDataType: "false",
-    });
+    // const baseUrl =
+    //   "https://climateserv.servirglobal.net/chirps/submitDataRequest/";
+    // const params = new URLSearchParams({
+    //   datatype: mapData.type === "Point" ? "44" : "42",
+    //   begintime: "09/01/2024",
+    //   endtime: mapData.type === "Point" ? "04/01/2025" : "03/01/2025",
+    //   intervaltype: "0",
+    //   operationtype: mapData.type === "Point" ? "0" : "1",
+    //   isZip_CurrentDataType: "false",
+    // });
 
-    const geometry = JSON.stringify({
-      type: mapData.type,
-      coordinates:
-        mapData.type === "Point" ? mapData.coordinates : [mapData.coordinates],
-    });
+    // const geometry = JSON.stringify({
+    //   type: mapData.type,
+    //   coordinates:
+    //     mapData.type === "Point" ? mapData.coordinates : [mapData.coordinates],
+    // });
 
-    params.append("geometry", geometry);
+    // params.append("geometry", geometry);
 
-    try {
-      const response = await fetch(`${baseUrl}?${params}`);
-      const data = await response.json();
-      setApiResponse(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setApiResponse({ error: "Failed to fetch data. Please try again." });
-    }
+    // try {
+    //   const response = await fetch(`${baseUrl}?${params}`);
+    //   const data = await response.json();
+    //   setApiResponse(data);
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    //   setApiResponse({ error: "Failed to fetch data. Please try again." });
+    // }
   };
 
   const resetMap = () => {
@@ -215,8 +214,8 @@ export default function MapInterface() {
           </div>
         </div>
 
-        <ScrollArea className="bg-card rounded-lg border-2 border-whit2/20 p-2 mt-auto pointer-events-auto w-full">
-          <div className="flex">
+        <ScrollArea className="bg-card rounded-lg border-2 border-whit2/20 py-2 mt-auto pointer-events-auto w-full">
+          <div className="flex px-2">
             <DayPrediction date="2024-10-4" temperature={30} />
             <DayPrediction date="2024-10-5" temperature={32} />
             <DayPrediction date="2024-10-6" temperature={33} />
@@ -230,14 +229,6 @@ export default function MapInterface() {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-
-      <CardFooter>
-        {apiResponse && (
-          <pre className="bg-gray-100 p-4 rounded-md overflow-auto w-full">
-            {JSON.stringify(apiResponse, null, 2)}
-          </pre>
-        )}
-      </CardFooter>
     </div>
   );
 }
