@@ -1,0 +1,212 @@
+{
+    "cultivos": [
+        {
+            "nombre": "Trigo",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 298.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 500,
+            "precipitaciones_ideales_maximas_mm_anuales": 1000,
+            "descripción": "Cereal básico, adaptable a diferentes climas, pero prefiere temperaturas moderadas y precipitaciones medias."
+        },
+        {
+            "nombre": "Maíz",
+            "temperatura_ideal_minima_kelvin": 298.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1000,
+            "precipitaciones_ideales_maximas_mm_anuales": 1500,
+            "descripción": "Planta de clima cálido que requiere temperaturas altas y abundantes precipitaciones para un crecimiento óptimo."
+        },
+        {
+            "nombre": "Espinaca",
+            "temperatura_ideal_minima_kelvin": 278.15,
+            "temperatura_ideal_maxima_kelvin": 288.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 400,
+            "precipitaciones_ideales_maximas_mm_anuales": 600,
+            "descripción": "Cultivo de hoja verde que prefiere climas frescos y un riego moderado."
+        },
+        {
+            "nombre": "Sorgo",
+            "temperatura_ideal_minima_kelvin": 293.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 250,
+            "precipitaciones_ideales_maximas_mm_anuales": 500,
+            "descripción": "Planta altamente resistente a la sequía, ideal para climas cálidos y con poca lluvia."
+        },
+        {
+            "nombre": "Zanahoria",
+            "temperatura_ideal_minima_kelvin": 283.15,
+            "temperatura_ideal_maxima_kelvin": 293.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 600,
+            "precipitaciones_ideales_maximas_mm_anuales": 800,
+            "descripción": "Raíz que crece mejor en climas templados a frescos, con un suministro de agua moderado."
+        },
+        {
+            "nombre": "Arroz",
+            "temperatura_ideal_minima_kelvin": 298.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1200,
+            "precipitaciones_ideales_maximas_mm_anuales": 2000,
+            "descripción": "Cultivo de alto requerimiento hídrico que necesita temperaturas cálidas y suelos inundados para crecer adecuadamente."
+        },
+        {
+            "nombre": "Frijoles",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 298.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 600,
+            "precipitaciones_ideales_maximas_mm_anuales": 900,
+            "descripción": "Legumbre que se adapta a una amplia gama de condiciones, pero requiere un clima moderado con lluvias regulares."
+        },
+        {
+            "nombre": "Cebolla",
+            "temperatura_ideal_minima_kelvin": 285.15,
+            "temperatura_ideal_maxima_kelvin": 293.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 500,
+            "precipitaciones_ideales_maximas_mm_anuales": 700,
+            "descripción": "Planta de bulbo que prefiere climas frescos y precipitaciones moderadas."
+        },
+        {
+            "nombre": "Tomate",
+            "temperatura_ideal_minima_kelvin": 293.15,
+            "temperatura_ideal_maxima_kelvin": 298.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 600,
+            "precipitaciones_ideales_maximas_mm_anuales": 800,
+            "descripción": "Fruto que prefiere climas cálidos y requiere un riego regular para producir frutos saludables."
+        },
+        {
+            "nombre": "Caña de azúcar",
+            "temperatura_ideal_minima_kelvin": 298.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1200,
+            "precipitaciones_ideales_maximas_mm_anuales": 2000,
+            "descripción": "Planta tropical que requiere abundantes precipitaciones y temperaturas cálidas para un desarrollo óptimo."
+        },
+        {
+            "nombre": "Café",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 298.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1500,
+            "precipitaciones_ideales_maximas_mm_anuales": 2500,
+            "descripción": "Arbusto tropical que requiere sombra parcial, alta humedad y temperaturas constantes."
+        },
+        {
+            "nombre": "Manzana",
+            "temperatura_ideal_minima_kelvin": 268.15,
+            "temperatura_ideal_maxima_kelvin": 298.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 700,
+            "precipitaciones_ideales_maximas_mm_anuales": 1200,
+            "descripción": "Árbol frutal que necesita veranos frescos e inviernos fríos para una buena producción."
+        },
+        {
+            "nombre": "Uva",
+            "temperatura_ideal_minima_kelvin": 283.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 600,
+            "precipitaciones_ideales_maximas_mm_anuales": 900,
+            "descripción": "Vid que se adapta a diferentes climas, pero prefiere veranos cálidos y secos y otoños frescos."
+        },
+        {
+            "nombre": "Algodón",
+            "temperatura_ideal_minima_kelvin": 293.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 500,
+            "precipitaciones_ideales_maximas_mm_anuales": 1000,
+            "descripción": "Planta fibrosa que requiere temperaturas altas y un período de sequía antes de la cosecha."
+        },
+        {
+            "nombre": "Olivo",
+            "temperatura_ideal_minima_kelvin": 268.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 400,
+            "precipitaciones_ideales_maximas_mm_anuales": 800,
+            "descripción": "Árbol frutal resistente a la sequía, ideal para climas mediterráneos."
+        },
+        {
+            "nombre": "Papa",
+            "temperatura_ideal_minima_kelvin": 278.15,
+            "temperatura_ideal_maxima_kelvin": 293.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 500,
+            "precipitaciones_ideales_maximas_mm_anuales": 800,
+            "descripción": "Tubérculo que prefiere climas frescos y suelos bien drenados."
+        },
+        {
+            "nombre": "Cacao",
+            "temperatura_ideal_minima_kelvin": 293.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1500,
+            "precipitaciones_ideales_maximas_mm_anuales": 2000,
+            "descripción": "Árbol tropical que requiere sombra, alta humedad y temperaturas constantes."
+        },
+        {
+            "nombre": "Banano",
+            "temperatura_ideal_minima_kelvin": 298.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1500,
+            "precipitaciones_ideales_maximas_mm_anuales": 2000,
+            "descripción": "Planta tropical que necesita humedad constante y temperaturas cálidas para crecer."
+        },
+        {
+            "nombre": "Naranja",
+            "temperatura_ideal_minima_kelvin": 283.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 600,
+            "precipitaciones_ideales_maximas_mm_anuales": 1000,
+            "descripción": "Árbol frutal que prefiere climas cálidos y húmedos para una buena producción."
+        },
+        {
+            "nombre": "Pimiento",
+            "temperatura_ideal_minima_kelvin": 293.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 500,
+            "precipitaciones_ideales_maximas_mm_anuales": 800,
+            "descripción": "Hortaliza que prefiere climas cálidos y un riego regular para producir frutos de calidad."
+        },
+        {
+            "nombre": "Limón",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 600,
+            "precipitaciones_ideales_maximas_mm_anuales": 1000,
+            "descripción": "Árbol frutal que prefiere climas cálidos y húmedos para una buena producción."
+        },
+        {
+            "nombre": "Pino",
+            "temperatura_ideal_minima_kelvin": 268.15,
+            "temperatura_ideal_maxima_kelvin": 293.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 500,
+            "precipitaciones_ideales_maximas_mm_anuales": 1000,
+            "descripción": "Árbol de clima templado que prefiere suelos bien drenados y un riego moderado."
+        },
+        {
+            "nombre": "Coco",
+            "temperatura_ideal_minima_kelvin": 298.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1500,
+            "precipitaciones_ideales_maximas_mm_anuales": 2500,
+            "descripción": "Palmera tropical que necesita humedad constante y temperaturas cálidas para crecer."
+        },
+        {
+            "nombre": "Papaya",
+            "temperatura_ideal_minima_kelvin": 298.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1500,
+            "precipitaciones_ideales_maximas_mm_anuales": 2000,
+            "descripción": "Fruta tropical que requiere humedad constante y temperaturas cálidas para crecer."
+        },
+        {
+            "nombre": "Piña",
+            "temperatura_ideal_minima_kelvin": 293.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_anuales": 1000,
+            "precipitaciones_ideales_maximas_mm_anuales": 1500,
+            "descripción": "Fruta tropical que necesita humedad constante y temperaturas cálidas para crecer."
+        },
+        {
+            "nombre": "Mango",
+            "temperatura_ideal_minima_kelvin": 298.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_anuales":1000,
+            "precipitaciones_ideales_maximas_mm_anuales": 1500,
+            "descripción": "Árbol frutal tropical que requiere humedad constante y temperaturas cálidas para crecer."
+        }
+    ]
+}
