@@ -1,6 +1,5 @@
 "use client";
-
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -13,6 +12,8 @@ import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
 import L from "leaflet";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MapPin, Pentagon, RectangleVertical, RotateCcw } from "lucide-react";
 
 type Coordinate = [number, number];
 type GeometryType = "Point" | "Polygon";
@@ -51,6 +52,23 @@ function MapEvents({
       }
     },
   });
+
+  return null;
+}
+
+// Custom hook to add zoom control on the right
+function AddZoomControl() {
+  const map = useMap();
+
+  useEffect(() => {
+    const zoomControl = L.control.zoom({ position: "topright" });
+    map.addControl(zoomControl);
+
+    // Clean up the control when the component unmounts
+    return () => {
+      map.removeControl(zoomControl);
+    };
+  }, [map]);
 
   return null;
 }
@@ -142,13 +160,15 @@ export default function MapInterface() {
 
   return (
     <div>
-      <div className="h-screen mb-4">
+      <div className="h-screen">
         <MapContainer
           center={[0, 0]}
           zoom={2}
           style={{ height: "100%", width: "100%" }}
           ref={mapRef}
           className="z-0"
+          attributionControl={false}
+          zoomControl={false}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <MapEvents onMapClick={handleMapClick} isPolygon={isPolygon} />
@@ -158,9 +178,27 @@ export default function MapInterface() {
           {mapData && mapData.type === "Polygon" && (
             <Polygon positions={mapData.coordinates as Coordinate[]} />
           )}
+          <AddZoomControl />
         </MapContainer>
       </div>
-      <div className="flex justify-between mb-4 absolute bottom-0 left-0 right-0 z-50 p-4 bg-white shadow-lg">
+      <div className="flex flex-col justify-between absolute bottom-[10px] left-[10px] top-[10px] z-50 p-4 bg-white rounded-lg border-2 border-whit2/20">
+        <Tabs
+          defaultValue="account"
+          className="w-64"
+          onValueChange={() => {
+            setMapData(null);
+          }}
+        >
+          <TabsList className="w-full">
+            <TabsTrigger value="account" className="w-full">
+              <MapPin className="size-3 text-muted-foreground mr-1" /> Punto
+            </TabsTrigger>
+            <TabsTrigger value="password" className="w-full">
+              <Pentagon className="size-3 text-muted-foreground mr-1" />
+              Polígono
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
         <Button
           onClick={() => {
             setIsPolygon(false);
@@ -185,18 +223,27 @@ export default function MapInterface() {
           (mapData.coordinates as Coordinate[]).length > 2 && (
             <Button onClick={finishPolygon}>Finish Polygon</Button>
           )}
-        <Button
-          onClick={handleSubmit}
-          disabled={
-            !mapData ||
-            (mapData.type === "Polygon" &&
-              (mapData.coordinates as Coordinate[]).length < 3)
-          }
-        >
-          Submit Data
-        </Button>
+        <div className="flex flex-col gap-2">
+          <Button onClick={resetMap} variant="outline">
+            <RotateCcw className="size-3 text-muted-foreground mr-1" />
+            Reset
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={
+              !mapData ||
+              (mapData.type === "Polygon" &&
+                (mapData.coordinates as Coordinate[]).length < 3)
+            }
+          >
+            Submit Data
+          </Button>
+        </div>
+      </div>
+
+      <div className="absolute bottom-[10px] right-[10px] bg-card">
         <Button onClick={resetMap} variant="outline">
-          Reset
+          <RectangleVertical className="size-3 text-muted-foreground" />
         </Button>
       </div>
 
