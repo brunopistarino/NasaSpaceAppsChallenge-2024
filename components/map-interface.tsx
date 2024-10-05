@@ -19,6 +19,7 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { calculatePolygonArea, ZoomControl } from "@/lib/utils";
 import { pointIcon } from "@/lib/utils";
 import { Coordinate, Geometry, InputType } from "@/lib/types";
+import { MAX_AREA } from "@/lib/constants";
 
 interface MapData {
   type: InputType;
@@ -96,9 +97,9 @@ export default function MapInterface() {
   const resetMap = () => {
     setMapData(null);
     setApiResponse(null);
-    if (mapRef.current) {
-      mapRef.current.setView([0, 0], 2);
-    }
+    // if (mapRef.current) {
+    //   mapRef.current.setView([0, 0], 2);
+    // }
   };
 
   return (
@@ -150,7 +151,7 @@ export default function MapInterface() {
               </TabsList>
             </Tabs>
             <div>
-              <p>{polygonArea}</p>
+              {/* <p>{polygonArea}</p> */}
               <p className="font-semibold text-lg">Cultivos recomendados</p>
               <div>
                 <CropPrediction name="Soja" percentage={95} />
@@ -159,15 +160,17 @@ export default function MapInterface() {
               </div>
             </div>
           </div>
-          <div className="text-red-500 flex items-center gap-2 border-2 border-dashed border-red-500 rounded-md p-1 pl-2">
-            <Info className="size-4 flex shrink-0" />
-            <p className="text-sm">
-              El area seleccionada es demasido grande y puede dar resultados no
-              tan precisos
-            </p>
-          </div>
 
           <div className="flex flex-col gap-2">
+            {polygonArea > MAX_AREA && (
+              <div className="text-red-500 flex items-center gap-2 border-2 border-dashed border-red-500 rounded-md p-1 pl-2">
+                <Info className="size-4 flex shrink-0" />
+                <p className="text-sm">
+                  El area seleccionada es demasido grande y puede dar resultados
+                  no tan precisos
+                </p>
+              </div>
+            )}
             {mapData && (
               <Button onClick={resetMap} variant="outline">
                 <RotateCcw className="size-3 text-muted-foreground mr-1" />
