@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useMemo } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -12,16 +12,13 @@ import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
 import L from "leaflet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MapPin, Pentagon, RotateCcw } from "lucide-react";
+import { Info, MapPin, Pentagon, RotateCcw } from "lucide-react";
 import DayPrediction from "./day-prediction";
 import CropPrediction from "./crop-prediction";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
-import { ZoomControl } from "@/lib/utils";
+import { calculatePolygonArea, ZoomControl } from "@/lib/utils";
 import { pointIcon } from "@/lib/utils";
-import { Geometry } from "@/lib/types";
-
-type Coordinate = [number, number];
-type InputType = "Point" | "Polygon";
+import { Coordinate, Geometry, InputType } from "@/lib/types";
 
 interface MapData {
   type: InputType;
@@ -89,6 +86,13 @@ export default function MapInterface() {
     console.log(geometry);
   };
 
+  const polygonArea = useMemo(() => {
+    if (mapData && mapData.type === "Polygon") {
+      return calculatePolygonArea(mapData.coordinates as Coordinate[]);
+    }
+    return 0;
+  }, [mapData]);
+
   const resetMap = () => {
     setMapData(null);
     setApiResponse(null);
@@ -146,6 +150,7 @@ export default function MapInterface() {
               </TabsList>
             </Tabs>
             <div>
+              <p>{polygonArea}</p>
               <p className="font-semibold text-lg">Cultivos recomendados</p>
               <div>
                 <CropPrediction name="Soja" percentage={95} />
@@ -153,6 +158,13 @@ export default function MapInterface() {
                 <CropPrediction name="Girasol" percentage={83} />
               </div>
             </div>
+          </div>
+          <div className="text-red-500 flex items-center gap-2 border-2 border-dashed border-red-500 rounded-md p-1 pl-2">
+            <Info className="size-4 flex shrink-0" />
+            <p className="text-sm">
+              El area seleccionada es demasido grande y puede dar resultados no
+              tan precisos
+            </p>
           </div>
 
           <div className="flex flex-col gap-2">

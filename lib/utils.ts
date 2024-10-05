@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
+import { Coordinate } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -32,4 +33,16 @@ export function ZoomControl() {
   }, [map]);
 
   return null;
+}
+
+export function calculatePolygonArea(coordinates: Coordinate[]): number {
+  if (coordinates.length < 3) return 0;
+
+  let area = 0;
+  for (let i = 0; i < coordinates.length; i++) {
+    const j = (i + 1) % coordinates.length;
+    area += coordinates[i][0] * coordinates[j][1];
+    area -= coordinates[j][0] * coordinates[i][1];
+  }
+  return Math.abs(area) / 2;
 }
