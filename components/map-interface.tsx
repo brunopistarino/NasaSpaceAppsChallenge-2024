@@ -16,7 +16,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapPin, Pentagon, RotateCcw } from "lucide-react";
 import DayPrediction from "./day-prediction";
 import CropPrediction from "./crop-prediction";
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 
 type Coordinate = [number, number];
 type GeometryType = "Point" | "Polygon";
@@ -26,7 +26,6 @@ interface MapData {
   coordinates: Coordinate | Coordinate[];
 }
 
-// Leaflet icon setup
 const icon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   iconRetinaUrl:
@@ -59,7 +58,6 @@ function MapEvents({
   return null;
 }
 
-// Custom hook to add zoom control on the right
 function AddZoomControl() {
   const map = useMap();
 
@@ -67,7 +65,6 @@ function AddZoomControl() {
     const zoomControl = L.control.zoom({ position: "topright" });
     map.addControl(zoomControl);
 
-    // Clean up the control when the component unmounts
     return () => {
       map.removeControl(zoomControl);
     };
@@ -144,25 +141,6 @@ export default function MapInterface() {
     }
   };
 
-  const finishPolygon = () => {
-    if (
-      mapData &&
-      mapData.type === "Polygon" &&
-      (mapData.coordinates as Coordinate[]).length > 2
-    ) {
-      setMapData((prev) => {
-        if (prev && prev.type === "Polygon") {
-          const coords = prev.coordinates as Coordinate[];
-          return {
-            type: "Polygon",
-            coordinates: [...coords, coords[0]], // Close the polygon
-          };
-        }
-        return prev;
-      });
-    }
-  };
-
   return (
     <div>
       <div className="h-screen">
@@ -220,12 +198,6 @@ export default function MapInterface() {
             </div>
           </div>
 
-          {inputType === "polygon" &&
-            mapData &&
-            mapData.type === "Polygon" &&
-            (mapData.coordinates as Coordinate[]).length > 2 && (
-              <Button onClick={finishPolygon}>Finish Polygon</Button>
-            )}
           <div className="flex flex-col gap-2">
             {mapData && (
               <Button onClick={resetMap} variant="outline">
@@ -235,11 +207,7 @@ export default function MapInterface() {
             )}
             <Button
               onClick={handleSubmit}
-              disabled={
-                !mapData ||
-                (mapData.type === "Polygon" &&
-                  (mapData.coordinates as Coordinate[]).length < 3)
-              }
+              disabled={!mapData}
               className="font-semibold"
             >
               Hacer predicción
@@ -247,16 +215,19 @@ export default function MapInterface() {
           </div>
         </div>
 
-        <ScrollArea className="bg-card rounded-lg border-2 border-whit2/20 p-2 flex gap-2 overflow-x-auto mt-auto pointer-events-auto w-full">
-          <DayPrediction date="2024-10-4" temperature={30} />
-          <DayPrediction date="2024-10-5" temperature={32} />
-          <DayPrediction date="2024-10-6" temperature={33} />
-          <DayPrediction date="2024-10-7" temperature={29} />
-          <DayPrediction date="2024-10-8" temperature={29} />
-          <DayPrediction date="2024-10-9" temperature={30} />
-          <DayPrediction date="2024-10-10" temperature={31} />
-          <DayPrediction date="2024-10-11" temperature={22} />
-          <DayPrediction date="2024-10-12" temperature={25} />
+        <ScrollArea className="bg-card rounded-lg border-2 border-whit2/20 p-2 mt-auto pointer-events-auto w-full">
+          <div className="flex">
+            <DayPrediction date="2024-10-4" temperature={30} />
+            <DayPrediction date="2024-10-5" temperature={32} />
+            <DayPrediction date="2024-10-6" temperature={33} />
+            <DayPrediction date="2024-10-7" temperature={29} />
+            <DayPrediction date="2024-10-8" temperature={29} />
+            <DayPrediction date="2024-10-9" temperature={30} />
+            <DayPrediction date="2024-10-10" temperature={31} />
+            <DayPrediction date="2024-10-11" temperature={22} />
+            <DayPrediction date="2024-10-12" temperature={25} />
+          </div>
+          <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
 
