@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -16,39 +16,30 @@ import { MapPin, Pentagon, RotateCcw } from "lucide-react";
 import DayPrediction from "./day-prediction";
 import CropPrediction from "./crop-prediction";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { ZoomControl } from "@/lib/utils";
+import { pointIcon } from "@/lib/utils";
 
 type Coordinate = [number, number];
-type GeometryType = "Point" | "Polygon";
+type InputType = "point" | "polygon";
 
 interface MapData {
-  type: GeometryType;
+  type: InputType;
   coordinates: Coordinate | Coordinate[];
 }
 
-const icon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
 function MapEvents({
   onMapClick,
-  isPolygon,
+  inputType,
 }: {
   onMapClick: (latlng: L.LatLng) => void;
-  isPolygon: boolean;
+  inputType: InputType;
 }) {
   const map = useMap();
 
   useMapEvents({
     click(e) {
       onMapClick(e.latlng);
-      if (!isPolygon) {
+      if (inputType === "point") {
         map.flyTo(e.latlng, map.getZoom());
       }
     },
@@ -57,24 +48,9 @@ function MapEvents({
   return null;
 }
 
-function AddZoomControl() {
-  const map = useMap();
-
-  useEffect(() => {
-    const zoomControl = L.control.zoom({ position: "topright" });
-    map.addControl(zoomControl);
-
-    return () => {
-      map.removeControl(zoomControl);
-    };
-  }, [map]);
-
-  return null;
-}
-
 export default function MapInterface() {
   const [mapData, setMapData] = useState<MapData | null>(null);
-  const [inputType, setInputType] = useState<"point" | "polygon">("point");
+  const [inputType, setInputType] = useState<InputType>("point");
   const [apiResponse, setApiResponse] = useState<any>(null);
   const mapRef = useRef<L.Map | null>(null);
 
@@ -83,16 +59,16 @@ export default function MapInterface() {
       const { lat, lng } = latlng;
       if (inputType === "polygon") {
         setMapData((prev) => {
-          if (prev && prev.type === "Polygon") {
+          if (prev && prev.type === "polygon") {
             return {
-              type: "Polygon",
+              type: "polygon",
               coordinates: [...(prev.coordinates as Coordinate[]), [lat, lng]],
             };
           }
-          return { type: "Polygon", coordinates: [[lat, lng]] };
+          return { type: "polygon", coordinates: [[lat, lng]] };
         });
       } else {
-        setMapData({ type: "Point", coordinates: [lat, lng] });
+        setMapData({ type: "point", coordinates: [lat, lng] });
       }
     },
     [inputType]
@@ -100,36 +76,6 @@ export default function MapInterface() {
 
   const handleSubmit = async () => {
     console.log(mapData);
-
-    // if (!mapData) return;
-
-    // const baseUrl =
-    //   "https://climateserv.servirglobal.net/chirps/submitDataRequest/";
-    // const params = new URLSearchParams({
-    //   datatype: mapData.type === "Point" ? "44" : "42",
-    //   begintime: "09/01/2024",
-    //   endtime: mapData.type === "Point" ? "04/01/2025" : "03/01/2025",
-    //   intervaltype: "0",
-    //   operationtype: mapData.type === "Point" ? "0" : "1",
-    //   isZip_CurrentDataType: "false",
-    // });
-
-    // const geometry = JSON.stringify({
-    //   type: mapData.type,
-    //   coordinates:
-    //     mapData.type === "Point" ? mapData.coordinates : [mapData.coordinates],
-    // });
-
-    // params.append("geometry", geometry);
-
-    // try {
-    //   const response = await fetch(`${baseUrl}?${params}`);
-    //   const data = await response.json();
-    //   setApiResponse(data);
-    // } catch (error) {
-    //   console.error("Error fetching data:", error);
-    //   setApiResponse({ error: "Failed to fetch data. Please try again." });
-    // }
   };
 
   const resetMap = () => {
@@ -153,17 +99,17 @@ export default function MapInterface() {
           zoomControl={false}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <MapEvents
-            onMapClick={handleMapClick}
-            isPolygon={inputType === "polygon"}
-          />
-          {mapData && mapData.type === "Point" && (
-            <Marker position={mapData.coordinates as Coordinate} icon={icon} />
+          <MapEvents onMapClick={handleMapClick} inputType={inputType} />
+          {mapData && mapData.type === "point" && (
+            <Marker
+              position={mapData.coordinates as Coordinate}
+              icon={pointIcon}
+            />
           )}
-          {mapData && mapData.type === "Polygon" && (
+          {mapData && mapData.type === "polygon" && (
             <Polygon positions={mapData.coordinates as Coordinate[]} />
           )}
-          <AddZoomControl />
+          <ZoomControl />
         </MapContainer>
       </div>
       <div className="absolute top-[10px] bottom-[10px] left-[10px] right-[10px] z-50 flex gap-[10px] pointer-events-none">
