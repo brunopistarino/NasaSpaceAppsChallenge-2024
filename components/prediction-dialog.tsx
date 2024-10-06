@@ -55,7 +55,7 @@ export default function PredictionDialog({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {confirmed ? "Generando reporte" : "Confirmar precisión"}
+            {confirmed ? "Generating report" : "Confirm accuracy"}
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogContent>
@@ -63,17 +63,17 @@ export default function PredictionDialog({
             <>
               <AccuracySlider value={value} onChange={handleChange} />
               <AlertDialogDescription>
-                A mayor precisión, mayor tiempo de espera.
+                The higher the precision, the longer the waiting time.
               </AlertDialogDescription>
               <AlertDialogDescription>
-                Estimado: 20-30 segundos por unidad de precisión.
+                Estimated: 20-30 seconds per unit of accuracy.
               </AlertDialogDescription>
             </>
           )}
 
           {confirmed ? (
             <>
-              <AlertDialogDescription>Generando reporte</AlertDialogDescription>
+              <AlertDialogDescription>Generating report</AlertDialogDescription>
               <Progress value={load} className="w-[80%]" />
             </>
           ) : (
@@ -86,11 +86,11 @@ export default function PredictionDialog({
                   }}
                   className="font-semibold"
                 >
-                  Generar predicción
+                  Generate prediction
                 </Button>
               </>
               <AlertDialogCancel onClick={() => setIsOpen(false)}>
-                Cancelar
+                Cancel
               </AlertDialogCancel>
             </>
           )}
