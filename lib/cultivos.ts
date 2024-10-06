@@ -10,6 +10,7 @@ interface Cultivo {
 }
 
 export const getCultivosList = (): Cultivo[] => {
-  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return cropsData.cultivos;
 };

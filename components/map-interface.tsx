@@ -98,7 +98,8 @@ export default function MapInterface() {
       handleLoad,
     });
 
-    // @ts-expect-error
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     setApiResponse(response);
     setIsPending(false);
   };

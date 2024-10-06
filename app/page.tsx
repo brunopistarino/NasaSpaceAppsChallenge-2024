@@ -3,7 +3,7 @@ import { exampleData } from "@/lib/constants";
 import { getSeedsForClimate } from "@/lib/selectSeed";
 
 export default function Home() {
-  console.log(getSeedsForClimate(exampleData))
+  // console.log(getSeedsForClimate(exampleData))
   return (
     <main>
       <MapInterface />

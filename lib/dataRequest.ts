@@ -119,24 +119,30 @@ export async function submitAllDataRequest(
 async function processDataTemperature(data: DataRequest[]) {
   const dataFinal: ProcessedDayData[] = [];
   const amount: number = data.length;
-  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const days: number = data[0].data.length;
 
   for (let i = 0; i < days; i++) {
     let sum = 0;
     for (let j = 0; j < amount; j++) {
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       sum += data[j].data[i].raw_value;
     }
     const average = sum / amount;
     const dayData: ProcessedDayData = {
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       year: data[0].data[i].year,
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       month: data[0].data[i].month,
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       day: data[0].data[i].day,
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       date: data[0].data[i].date,
       kelvin: average,
       celsius: average - 273.15,
@@ -150,23 +156,29 @@ async function processDataTemperature(data: DataRequest[]) {
 async function processDataPrecipitation(data: DataRequest[]) {
   const dataFinal: DayData[] = [];
   const amount: number = data.length;
-  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const days: number = data[0].data.length;
 
   for (let i = 0; i < days; i++) {
     let sum = 0;
     for (let j = 0; j < amount; j++) {
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       sum += data[j].data[i].raw_value;
     }
     const dayData: DayData = {
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       year: data[0].data[i].year,
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       month: data[0].data[i].month,
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       day: data[0].data[i].day,
-      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       date: data[0].data[i].date,
       raw_value: sum,
     };
