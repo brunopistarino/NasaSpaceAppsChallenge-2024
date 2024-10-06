@@ -5,14 +5,13 @@ import {
 } from "./actions/dataRequest";
 import { DataRequest, DayData, Geometry, ProcessedDayData } from "./types";
 
-interface Props{
-  geometry: Geometry,
-  accuracy: number,
-  handleLoad: (value: number) => void
+interface Props {
+  geometry: Geometry;
+  accuracy: number;
+  handleLoad: (value: number) => void;
 }
 
-export async function dataRequest({geometry, accuracy, handleLoad}: Props) {
-
+export async function dataRequest({ geometry, accuracy, handleLoad }: Props) {
   const datatypes = Array.from({ length: 4 * accuracy }, (_, i) => i + 42);
 
   const dataReq = await submitAllDataRequest(geometry, datatypes, handleLoad);
@@ -36,7 +35,11 @@ export async function dataRequest({geometry, accuracy, handleLoad}: Props) {
   };
 }
 
-export async function submitAllDataRequest(geometry: Geometry, datatypes: number[], handleLoad: (value: number) => void) {
+export async function submitAllDataRequest(
+  geometry: Geometry,
+  datatypes: number[],
+  handleLoad: (value: number) => void
+) {
   const dataTemperature: DataRequest[] = [];
   const dataPrecipitation: DataRequest[] = [];
   const intervalType = 0;
@@ -95,7 +98,7 @@ export async function submitAllDataRequest(geometry: Geometry, datatypes: number
   for (let i = 0; i < datatypes.length; i += batchSize) {
     const batch = datatypes.slice(i, i + batchSize);
     const successes = await processBatch(batch);
-    handleLoad(((i + batchSize) / datatypes.length)*100 - 5);
+    handleLoad(((i + batchSize) / datatypes.length) * 100 - 5);
     totalSuccesses += successes;
   }
 
@@ -116,18 +119,24 @@ export async function submitAllDataRequest(geometry: Geometry, datatypes: number
 async function processDataTemperature(data: DataRequest[]) {
   const dataFinal: ProcessedDayData[] = [];
   const amount: number = data.length;
+  // @ts-expect-error
   const days: number = data[0].data.length;
 
   for (let i = 0; i < days; i++) {
     let sum = 0;
     for (let j = 0; j < amount; j++) {
+      // @ts-expect-error
       sum += data[j].data[i].raw_value;
     }
     const average = sum / amount;
     const dayData: ProcessedDayData = {
+      // @ts-expect-error
       year: data[0].data[i].year,
+      // @ts-expect-error
       month: data[0].data[i].month,
+      // @ts-expect-error
       day: data[0].data[i].day,
+      // @ts-expect-error
       date: data[0].data[i].date,
       kelvin: average,
       celsius: average - 273.15,
@@ -141,17 +150,23 @@ async function processDataTemperature(data: DataRequest[]) {
 async function processDataPrecipitation(data: DataRequest[]) {
   const dataFinal: DayData[] = [];
   const amount: number = data.length;
+  // @ts-expect-error
   const days: number = data[0].data.length;
 
   for (let i = 0; i < days; i++) {
     let sum = 0;
     for (let j = 0; j < amount; j++) {
+      // @ts-expect-error
       sum += data[j].data[i].raw_value;
     }
     const dayData: DayData = {
+      // @ts-expect-error
       year: data[0].data[i].year,
+      // @ts-expect-error
       month: data[0].data[i].month,
+      // @ts-expect-error
       day: data[0].data[i].day,
+      // @ts-expect-error
       date: data[0].data[i].date,
       raw_value: sum,
     };

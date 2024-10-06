@@ -89,7 +89,9 @@ export default function PredictionDialog({
                   Generar predicción
                 </Button>
               </>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogCancel onClick={() => setIsOpen(false)}>
+                Cancelar
+              </AlertDialogCancel>
             </>
           )}
         </AlertDialogContent>

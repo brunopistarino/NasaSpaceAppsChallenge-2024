@@ -18,7 +18,7 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { calculatePolygonArea, ZoomControl } from "@/lib/utils";
 import { pointIcon } from "@/lib/utils";
 import { APIData, Coordinate, Geometry, InputType } from "@/lib/types";
-import { exampleData, MAX_AREA } from "@/lib/constants";
+import { MAX_AREA } from "@/lib/constants";
 import { dataRequest } from "@/lib/dataRequest";
 import PredictionDialog from "./prediction-dialog";
 
@@ -51,7 +51,7 @@ function MapEvents({
 export default function MapInterface() {
   const [mapData, setMapData] = useState<MapData | null>(null);
   const [inputType, setInputType] = useState<InputType>("Point");
-  const [apiResponse, setApiResponse] = useState<APIData | null>(exampleData);
+  const [apiResponse, setApiResponse] = useState<APIData | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [load, setLoad] = useState(0);
@@ -97,6 +97,9 @@ export default function MapInterface() {
       accuracy: value,
       handleLoad,
     });
+
+    // @ts-expect-error
+    setApiResponse(response);
     setIsPending(false);
   };
 

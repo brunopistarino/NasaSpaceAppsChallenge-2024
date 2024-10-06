@@ -9,8 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Thermometer, Droplets, Calendar, AlertTriangle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Thermometer, Droplets, Calendar } from "lucide-react";
 
 interface Props {
   temperature: ProcessedDayData;

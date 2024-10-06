@@ -10,5 +10,6 @@ interface Cultivo {
 }
 
 export const getCultivosList = (): Cultivo[] => {
+  // @ts-expect-error
   return cropsData.cultivos;
 };
