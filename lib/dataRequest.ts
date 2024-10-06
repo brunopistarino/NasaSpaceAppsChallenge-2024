@@ -7,10 +7,13 @@ import { DataRequest, DayData, Geometry, ProcessedDayData } from "./types";
 
 // Array of datasets numbers
 // const datatypes = Array.from({ length: 48 }, (_, i) => i + 42);
-const datatypes = Array.from({ length: 4 }, (_, i) => i + 42);
 
-export async function dataRequest(geometry: Geometry) {
-  const dataReq = await submitAllDataRequest(geometry);
+
+export async function dataRequest(geometry: Geometry, accuracy: number) {
+
+  const datatypes = Array.from({ length: 4 * accuracy }, (_, i) => i + 42);
+
+  const dataReq = await submitAllDataRequest(geometry, datatypes);
 
   if (dataReq.error != null) {
     return {
@@ -29,7 +32,7 @@ export async function dataRequest(geometry: Geometry) {
   };
 }
 
-export async function submitAllDataRequest(geometry: Geometry) {
+export async function submitAllDataRequest(geometry: Geometry, datatypes: number[]) {
   const dataTemperature: DataRequest[] = [];
   const dataPrecipitation: DataRequest[] = [];
   const intervalType = 0;
