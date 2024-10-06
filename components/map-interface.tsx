@@ -34,13 +34,13 @@ function MapEvents({
   onMapClick: (latlng: L.LatLng) => void;
   inputType: InputType;
 }) {
-  const map = useMap();
+  // const map = useMap();
 
   useMapEvents({
     click(e) {
       onMapClick(e.latlng);
       if (inputType === "Point") {
-        map.flyTo(e.latlng, map.getZoom());
+        // map.flyTo(e.latlng, map.getZoom());
       }
     },
   });

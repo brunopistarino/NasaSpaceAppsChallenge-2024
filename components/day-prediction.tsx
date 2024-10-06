@@ -11,7 +11,7 @@ export default function DayPrediction({ temperature, precipitation }: Props) {
   const day = date.getDate();
 
   return (
-    <div className="flex flex-col items-center hover:bg-muted p-2 rounded">
+    <div className="flex flex-col items-center hover:bg-muted py-2 px-4 rounded">
       <p className="whitespace-nowrap">
         <span className="text-muted-foreground">{month}</span> {day}
       </p>
