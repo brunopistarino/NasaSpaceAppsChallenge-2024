@@ -12,7 +12,7 @@ import "leaflet/dist/leaflet.css";
 import { Button } from "@/components/ui/button";
 import L from "leaflet";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Info, MapPin, Pentagon, RotateCcw } from "lucide-react";
+import { Info, MapPin, MapPinOff, Pentagon, RotateCcw } from "lucide-react";
 import DayPrediction from "./day-prediction";
 import CropPrediction from "./crop-prediction";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
@@ -137,11 +137,11 @@ export default function MapInterface() {
         </MapContainer>
       </div>
       <div className="absolute top-[10px] bottom-[10px] left-[10px] right-[10px] z-50 flex gap-[10px] pointer-events-none">
-        <div className="flex flex-col justify-between  p-4 bg-card rounded-lg border-2 border-whit2/20 pointer-events-auto">
-          <div className="grid gap-4">
+        <div className="flex flex-col justify-between p-4 bg-card rounded-lg border-2 border-whit/20 pointer-events-auto w-72 shrink-0">
+          <div className="flex flex-col gap-4 h-full">
             <Tabs
               value={inputType}
-              className="w-64"
+              className="w-full"
               onValueChange={(value) => {
                 setMapData(null);
                 setInputType(value as InputType);
@@ -157,15 +157,30 @@ export default function MapInterface() {
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <div>
-              {/* <p>{polygonArea}</p> */}
-              <p className="font-semibold text-lg">Cultivos recomendados</p>
+            {(inputType === "Point" && mapData) ||
+            (inputType === "Polygon" &&
+              mapData &&
+              mapData.coordinates.length > 2) ? (
               <div>
-                <CropPrediction name="Soja" percentage={95} />
-                <CropPrediction name="Trigo" percentage={91} />
-                <CropPrediction name="Girasol" percentage={83} />
+                {/* <p>{polygonArea}</p> */}
+                <p className="font-semibold text-lg">Cultivos recomendados</p>
+                <div>
+                  <CropPrediction name="Soja" percentage={95} />
+                  <CropPrediction name="Trigo" percentage={91} />
+                  <CropPrediction name="Girasol" percentage={83} />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full gap-4">
+                <MapPinOff className="text-muted-foreground" />
+                <div className="flex flex-col items-center">
+                  <p>Ningún area seleccionada</p>
+                  <p className="text-muted-foreground text-center text-sm">
+                    Haz click en el mapa para seleccionar un punto o un polígono
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -186,7 +201,11 @@ export default function MapInterface() {
             )}
             <Button
               onClick={handleSubmit}
-              disabled={!mapData || isPending}
+              disabled={
+                !mapData ||
+                isPending ||
+                (inputType === "Polygon" && mapData.coordinates.length < 3)
+              }
               className="font-semibold"
             >
               Hacer predicción
