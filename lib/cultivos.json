@@ -1,0 +1,124 @@
+{
+    "cultivos": [
+        {
+            "nombre": "Trigo",
+            "temperatura_ideal_minima_kelvin": 268.15,
+            "temperatura_ideal_maxima_kelvin": 293.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 41.67,
+            "precipitaciones_ideales_maximas_mm_mensuales": 83.33,
+            "descripción": "Cereal básico que prefiere temperaturas de suelo frescas a moderadas y precipitaciones medias."
+        },
+        {
+            "nombre": "Maíz",
+            "temperatura_ideal_minima_kelvin": 283.15,
+            "temperatura_ideal_maxima_kelvin": 313.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 83.33,
+            "precipitaciones_ideales_maximas_mm_mensuales": 125,
+            "descripción": "Planta de clima cálido que requiere temperaturas de suelo altas para la germinación y un alto nivel de precipitaciones."
+        },
+        {
+            "nombre": "Espinaca",
+            "temperatura_ideal_minima_kelvin": 275.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 33.33,
+            "precipitaciones_ideales_maximas_mm_mensuales": 50,
+            "descripción": "Prefiere temperaturas de suelo frescas y un riego moderado para un crecimiento óptimo."
+        },
+        {
+            "nombre": "Sorgo",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 318.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 20.83,
+            "precipitaciones_ideales_maximas_mm_mensuales": 41.67,
+            "descripción": "Resistente a la sequía, ideal para climas cálidos y temperaturas de suelo altas."
+        },
+        {
+            "nombre": "Zanahoria",
+            "temperatura_ideal_minima_kelvin": 268.15,
+            "temperatura_ideal_maxima_kelvin": 298.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 50,
+            "precipitaciones_ideales_maximas_mm_mensuales": 66.67,
+            "descripción": "Raíz que crece mejor en suelos moderadamente frescos con un suministro de agua regular."
+        },
+        {
+            "nombre": "Arroz",
+            "temperatura_ideal_minima_kelvin": 283.15,
+            "temperatura_ideal_maxima_kelvin": 313.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 100,
+            "precipitaciones_ideales_maximas_mm_mensuales": 166.67,
+            "descripción": "Cultivo de suelos inundados que necesita temperaturas cálidas y abundante agua."
+        },
+        {
+            "nombre": "Frijoles",
+            "temperatura_ideal_minima_kelvin": 278.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 50,
+            "precipitaciones_ideales_maximas_mm_mensuales": 75,
+            "descripción": "Legumbre adaptable que requiere temperaturas de suelo moderadas para una buena germinación."
+        },
+        {
+            "nombre": "Cebolla",
+            "temperatura_ideal_minima_kelvin": 273.15,
+            "temperatura_ideal_maxima_kelvin": 303.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 41.67,
+            "precipitaciones_ideales_maximas_mm_mensuales": 58.33,
+            "descripción": "Prefiere temperaturas frescas de suelo y precipitaciones moderadas."
+        },
+        {
+            "nombre": "Tomate",
+            "temperatura_ideal_minima_kelvin": 283.15,
+            "temperatura_ideal_maxima_kelvin": 313.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 50,
+            "precipitaciones_ideales_maximas_mm_mensuales": 66.67,
+            "descripción": "Prefiere suelos cálidos para un desarrollo óptimo y un riego constante."
+        },
+        {
+            "nombre": "Caña de azúcar",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 318.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 100,
+            "precipitaciones_ideales_maximas_mm_mensuales": 166.67,
+            "descripción": "Planta tropical que necesita suelos muy cálidos y alta humedad para crecer."
+        },
+        {
+            "nombre": "Papa",
+            "temperatura_ideal_minima_kelvin": 268.15,
+            "temperatura_ideal_maxima_kelvin": 293.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 41.67,
+            "precipitaciones_ideales_maximas_mm_mensuales": 66.67,
+            "descripción": "Tubérculo que crece mejor en suelos frescos y húmedos con un riego regular."
+        },
+        {
+            "nombre": "Café",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 100,
+            "precipitaciones_ideales_maximas_mm_mensuales": 166.67,
+            "descripción": "Cultivo tropical que necesita temperaturas cálidas y alta humedad para crecer."
+        },
+        {
+            "nombre": "Banano",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 100,
+            "precipitaciones_ideales_maximas_mm_mensuales": 166.67,
+            "descripción": "Planta tropical que necesita suelos muy cálidos y alta humedad para crecer."
+        },
+        {
+            "nombre": "Naranja",
+            "temperatura_ideal_minima_kelvin": 288.15,
+            "temperatura_ideal_maxima_kelvin": 308.15,
+            "precipitaciones_ideales_minimas_mm_mensuales": 100,
+            "precipitaciones_ideales_maximas_mm_mensuales": 166.67,
+            "descripción": "Frutal tropical que necesita temperaturas cálidas y alta humedad para crecer."
+        },
+        {
+            "nombre": "Ejemplo",
+            "temperatura_ideal_minima_kelvin": 190,
+            "temperatura_ideal_maxima_kelvin": 410,
+            "precipitaciones_ideales_minimas_mm_mensuales": 0,
+            "precipitaciones_ideales_maximas_mm_mensuales": 333.33,
+            "descripción": "Planta tropical que necesita suelos muy cálidos y alta humedad para crecer."
+        }
+    ]
+}
