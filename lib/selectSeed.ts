@@ -66,7 +66,7 @@ function calculateMonthlyAverage(data: any[], valueKey: string) {
   ).filter((avg) => avg !== null);
 }
 
-function calculateCompatibilityPercentage(value, min, max) {
+function calculateCompatibilityPercentage(value: number, min: number, max: number) {
   if (value < min) {
     return Math.max(0, 100 - ((min - value) / min) * 100);
   } else if (value > max) {
