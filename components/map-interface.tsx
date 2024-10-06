@@ -5,7 +5,6 @@ import {
   TileLayer,
   Marker,
   Polygon,
-  useMap,
   useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -21,6 +20,7 @@ import { pointIcon } from "@/lib/utils";
 import { APIData, Coordinate, Geometry, InputType } from "@/lib/types";
 import { exampleData, MAX_AREA } from "@/lib/constants";
 import { dataRequest } from "@/lib/dataRequest";
+import PredictionDialog from "./prediction-dialog";
 
 interface MapData {
   type: InputType;
@@ -75,7 +75,7 @@ export default function MapInterface() {
     [inputType]
   );
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (value: number) => {
     if (!mapData) return;
     setIsPending(true);
 
@@ -87,7 +87,7 @@ export default function MapInterface() {
           : [mapData.coordinates as number[][]],
     };
 
-    const response = await dataRequest(geometry);
+    const response = await dataRequest(geometry, value);
     console.log(response);
 
     console.log(geometry);
@@ -199,17 +199,14 @@ export default function MapInterface() {
                 Resetear
               </Button>
             )}
-            <Button
-              onClick={handleSubmit}
+            <PredictionDialog
+              handleSubmit={handleSubmit}
               disabled={
                 !mapData ||
                 isPending ||
                 (inputType === "Polygon" && mapData.coordinates.length < 3)
               }
-              className="font-semibold"
-            >
-              Hacer predicción
-            </Button>
+            />
           </div>
         </div>
 
