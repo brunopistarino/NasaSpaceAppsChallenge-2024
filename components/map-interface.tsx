@@ -18,7 +18,7 @@ import CropPrediction from "./crop-prediction";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { calculatePolygonArea, ZoomControl } from "@/lib/utils";
 import { pointIcon } from "@/lib/utils";
-import { Coordinate, Geometry, InputType } from "@/lib/types";
+import { APIData, Coordinate, Geometry, InputType } from "@/lib/types";
 import { exampleData, MAX_AREA } from "@/lib/constants";
 import { dataRequest } from "@/lib/dataRequest";
 
@@ -51,7 +51,7 @@ function MapEvents({
 export default function MapInterface() {
   const [mapData, setMapData] = useState<MapData | null>(null);
   const [inputType, setInputType] = useState<InputType>("Point");
-  const [apiResponse, setApiResponse] = useState<any>(exampleData);
+  const [apiResponse, setApiResponse] = useState<APIData | null>(exampleData);
   const mapRef = useRef<L.Map | null>(null);
   const [isPending, setIsPending] = useState(false);
 
@@ -194,20 +194,20 @@ export default function MapInterface() {
           </div>
         </div>
 
-        <ScrollArea className="bg-card rounded-lg border-2 border-whit2/20 py-2 mt-auto pointer-events-auto w-full">
-          <div className="flex px-2">
-            <DayPrediction date="2024-10-4" temperature={30} />
-            <DayPrediction date="2024-10-5" temperature={32} />
-            <DayPrediction date="2024-10-6" temperature={33} />
-            <DayPrediction date="2024-10-7" temperature={29} />
-            <DayPrediction date="2024-10-8" temperature={29} />
-            <DayPrediction date="2024-10-9" temperature={30} />
-            <DayPrediction date="2024-10-10" temperature={31} />
-            <DayPrediction date="2024-10-11" temperature={22} />
-            <DayPrediction date="2024-10-12" temperature={25} />
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        {apiResponse && (
+          <ScrollArea className="bg-card rounded-lg border-2 border-whit2/20 py-2 mt-auto pointer-events-auto w-full">
+            <div className="flex px-2">
+              {apiResponse.dataTemperature.map((day, x) => (
+                <DayPrediction
+                  key={x}
+                  temperature={apiResponse.dataTemperature[x]}
+                  precipitation={apiResponse.dataPrecipitation[x]}
+                />
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        )}
       </div>
     </div>
   );

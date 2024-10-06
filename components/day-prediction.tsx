@@ -1,18 +1,25 @@
+import { DayData, ProcessedDayData } from "@/lib/types";
+
 interface Props {
-  date: string;
-  temperature: number;
+  temperature: ProcessedDayData;
+  precipitation: DayData;
 }
 
-export default function DayPrediction({ date, temperature }: Props) {
-  const month = new Date(date).toLocaleString("default", { month: "short" });
-  const day = new Date(date).getDate();
+export default function DayPrediction({ temperature, precipitation }: Props) {
+  const date = new Date(temperature.date);
+  const month = date.toLocaleString("default", { month: "short" });
+  const day = date.getDate();
 
   return (
     <div className="flex flex-col items-center hover:bg-muted p-2 rounded">
       <p className="whitespace-nowrap">
         <span className="text-muted-foreground">{month}</span> {day}
       </p>
-      <p className="font-medium text-3xl">{temperature}°</p>
+      <p className="font-medium text-3xl">{Math.round(temperature.celsius)}°</p>
+      <p>
+        {Math.round(precipitation.raw_value)}{" "}
+        <span className="text-muted-foreground">ml</span>
+      </p>
     </div>
   );
 }

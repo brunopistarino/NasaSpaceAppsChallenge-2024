@@ -26,10 +26,10 @@ export interface ProcessedDayData {
   fahrenheit: number;
 }
 
-export interface APIData{
+export interface APIData {
   dataTemperature: ProcessedDayData[];
   dataPrecipitation: DayData[];
-  error:null;
+  error: null;
 }
 
 export type Coordinate = [number, number];
