@@ -155,11 +155,12 @@ export default function MapInterface() {
             >
               <TabsList className="w-full">
                 <TabsTrigger value="Point" className="w-full">
-                  <MapPin className="size-3 text-muted-foreground mr-1" /> Punto
+                  <MapPin className="size-3 text-muted-foreground mr-1" />
+                  Point
                 </TabsTrigger>
                 <TabsTrigger value="Polygon" className="w-full">
                   <Pentagon className="size-3 text-muted-foreground mr-1" />
-                  Polígono
+                  Polygon
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -169,7 +170,7 @@ export default function MapInterface() {
               mapData.coordinates.length > 2) ? (
               <div>
                 {/* <p>{polygonArea}</p> */}
-                <p className="font-semibold text-lg">Cultivos recomendados</p>
+                <p className="font-semibold text-lg">Recommended crops</p>
                 <div>
                   <CropPrediction name="Soja" percentage={95} />
                   <CropPrediction name="Trigo" percentage={91} />
@@ -180,9 +181,9 @@ export default function MapInterface() {
               <div className="flex flex-col items-center justify-center h-full gap-4">
                 <MapPinOff className="text-muted-foreground" />
                 <div className="flex flex-col items-center">
-                  <p>Ningún area seleccionada</p>
-                  <p className="text-muted-foreground text-center text-sm">
-                    Haz click en el mapa para seleccionar un punto o un polígono
+                  <p>No area selected</p>
+                  <p className="text-muted-foreground text-center text-sm text-balance">
+                    Click on the map to select a point or polygon
                   </p>
                 </div>
               </div>
@@ -194,15 +195,15 @@ export default function MapInterface() {
               <div className="text-red-500 flex items-center gap-2 border-2 border-dashed border-red-500 rounded-md p-1 pl-2">
                 <Info className="size-4 flex shrink-0" />
                 <p className="text-sm">
-                  El area seleccionada es demasido grande y puede dar resultados
-                  no tan precisos
+                  The selected area is too large and may give inaccurate
+                  results.
                 </p>
               </div>
             )}
             {mapData && (
               <Button onClick={resetMap} variant="outline">
                 <RotateCcw className="size-3 text-muted-foreground mr-1" />
-                Resetear
+                Reset
               </Button>
             )}
             <PredictionDialog

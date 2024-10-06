@@ -49,7 +49,7 @@ export default function PredictionDialog({
           className="font-semibold"
           onClick={() => setIsOpen(true)}
         >
-          Hacer predicción
+          Make prediction
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
