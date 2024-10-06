@@ -19,7 +19,8 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { calculatePolygonArea, ZoomControl } from "@/lib/utils";
 import { pointIcon } from "@/lib/utils";
 import { Coordinate, Geometry, InputType } from "@/lib/types";
-import { MAX_AREA } from "@/lib/constants";
+import { exampleData, MAX_AREA } from "@/lib/constants";
+import { dataRequest } from "@/lib/dataRequest";
 
 interface MapData {
   type: InputType;
@@ -50,8 +51,9 @@ function MapEvents({
 export default function MapInterface() {
   const [mapData, setMapData] = useState<MapData | null>(null);
   const [inputType, setInputType] = useState<InputType>("Point");
-  const [apiResponse, setApiResponse] = useState<any>(null);
+  const [apiResponse, setApiResponse] = useState<any>(exampleData);
   const mapRef = useRef<L.Map | null>(null);
+  const [isPending, setIsPending] = useState(false);
 
   const handleMapClick = useCallback(
     (latlng: L.LatLng) => {
@@ -75,6 +77,7 @@ export default function MapInterface() {
 
   const handleSubmit = async () => {
     if (!mapData) return;
+    setIsPending(true);
 
     const geometry: Geometry = {
       type: mapData.type,
@@ -84,7 +87,11 @@ export default function MapInterface() {
           : [mapData.coordinates as number[][]],
     };
 
+    const response = await dataRequest(geometry);
+    console.log(response);
+
     console.log(geometry);
+    setIsPending(false);
   };
 
   const polygonArea = useMemo(() => {
@@ -179,7 +186,7 @@ export default function MapInterface() {
             )}
             <Button
               onClick={handleSubmit}
-              disabled={!mapData}
+              disabled={!mapData || isPending}
               className="font-semibold"
             >
               Hacer predicción
