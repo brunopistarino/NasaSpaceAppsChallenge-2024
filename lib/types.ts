@@ -26,5 +26,11 @@ export interface ProcessedDayData {
   fahrenheit: number;
 }
 
+export interface APIData{
+  dataTemperature: ProcessedDayData[];
+  dataPrecipitation: DayData[];
+  error:null;
+}
+
 export type Coordinate = [number, number];
 export type InputType = "Point" | "Polygon";
