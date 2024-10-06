@@ -18,7 +18,7 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { calculatePolygonArea, ZoomControl } from "@/lib/utils";
 import { pointIcon } from "@/lib/utils";
 import { APIData, Coordinate, Geometry, InputType } from "@/lib/types";
-import { MAX_AREA } from "@/lib/constants";
+import { MAX_AREA, randomCrops } from "@/lib/constants";
 import { dataRequest } from "@/lib/dataRequest";
 import PredictionDialog from "./prediction-dialog";
 
@@ -147,7 +147,7 @@ export default function MapInterface() {
         </MapContainer>
       </div>
       <div className="absolute top-[10px] bottom-[10px] left-[10px] right-[10px] z-50 flex gap-[10px] pointer-events-none">
-        <div className="flex flex-col justify-between p-4 bg-card rounded-lg border-2 border-whit/20 pointer-events-auto w-72 shrink-0">
+        <div className="flex flex-col justify-between p-4 bg-card rounded-lg border-2 border-whit/20 pointer-events-auto w-72 shrink-0 relative">
           <div className="flex flex-col gap-4 h-full">
             <Tabs
               value={inputType}
@@ -172,15 +172,18 @@ export default function MapInterface() {
             (inputType === "Polygon" &&
               mapData &&
               mapData.coordinates.length > 2) ? (
-              <div>
-                {/* <p>{polygonArea}</p> */}
+              <ScrollArea className={apiResponse ? "" : "hidden mb-24"}>
                 <p className="font-semibold text-lg">Recommended crops</p>
                 <div>
-                  <CropPrediction name="Soja" percentage={95} />
-                  <CropPrediction name="Trigo" percentage={91} />
-                  <CropPrediction name="Girasol" percentage={83} />
+                  {randomCrops().map((crop) => (
+                    <CropPrediction
+                      key={crop.crop_name}
+                      name={crop.crop_name}
+                      percentage={crop.percentage}
+                    />
+                  ))}
                 </div>
-              </div>
+              </ScrollArea>
             ) : (
               <div className="flex flex-col items-center justify-center h-full gap-4">
                 <MapPinOff className="text-muted-foreground" />
@@ -194,7 +197,7 @@ export default function MapInterface() {
             )}
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 absolute bottom-4 left-4 right-4">
             {polygonArea > MAX_AREA && (
               <div className="text-red-500 flex items-center gap-2 border-2 border-dashed border-red-500 rounded-md p-1 pl-2">
                 <Info className="size-4 flex shrink-0" />

@@ -2365,7 +2365,7 @@ export const crops = [
     description: "An annual plant cultivated for its edible starchy grains.",
   },
   {
-    crop_name: "Corn (Maize)",
+    crop_name: "Corn",
     min_ideal_ground_temp_K: 288,
     max_ideal_ground_temp_K: 313,
     min_ideal_precipitation_mm: 500,
@@ -2656,3 +2656,16 @@ export const crops = [
     description: "A small blue fruit used for food, rich in antioxidants.",
   },
 ];
+
+// return random crops with random percentages
+export const randomCrops = () => {
+  const randomCrops = crops.map((crop) => {
+    return {
+      ...crop,
+      percentage: Math.floor(Math.random() * 100),
+    };
+  });
+  // sort by percentage
+  randomCrops.sort((a, b) => b.percentage - a.percentage);
+  return randomCrops;
+};
