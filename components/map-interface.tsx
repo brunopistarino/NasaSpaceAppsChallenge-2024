@@ -113,7 +113,7 @@ export default function MapInterface() {
     <div>
       <div className="h-screen">
         <MapContainer
-          center={[0, 0]}
+          center={[0, -100]}
           zoom={3}
           minZoom={3}
           style={{ height: "100%", width: "100%" }}
