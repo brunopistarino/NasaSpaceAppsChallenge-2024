@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Geometry } from '@/lib/types';
 
 interface Props {

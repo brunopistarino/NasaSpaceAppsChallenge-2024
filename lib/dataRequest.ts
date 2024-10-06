@@ -5,15 +5,17 @@ import {
 } from "./actions/dataRequest";
 import { DataRequest, DayData, Geometry, ProcessedDayData } from "./types";
 
-// Array of datasets numbers
-// const datatypes = Array.from({ length: 48 }, (_, i) => i + 42);
+interface Props{
+  geometry: Geometry,
+  accuracy: number,
+  handleLoad: (value: number) => void
+}
 
-
-export async function dataRequest(geometry: Geometry, accuracy: number) {
+export async function dataRequest({geometry, accuracy, handleLoad}: Props) {
 
   const datatypes = Array.from({ length: 4 * accuracy }, (_, i) => i + 42);
 
-  const dataReq = await submitAllDataRequest(geometry, datatypes);
+  const dataReq = await submitAllDataRequest(geometry, datatypes, handleLoad);
 
   if (dataReq.error != null) {
     return {
@@ -22,6 +24,8 @@ export async function dataRequest(geometry: Geometry, accuracy: number) {
       error: dataReq.error,
     };
   }
+
+  handleLoad(100);
 
   return {
     dataTemperature: await processDataTemperature(dataReq.dataTemperature),
@@ -32,7 +36,7 @@ export async function dataRequest(geometry: Geometry, accuracy: number) {
   };
 }
 
-export async function submitAllDataRequest(geometry: Geometry, datatypes: number[]) {
+export async function submitAllDataRequest(geometry: Geometry, datatypes: number[], handleLoad: (value: number) => void) {
   const dataTemperature: DataRequest[] = [];
   const dataPrecipitation: DataRequest[] = [];
   const intervalType = 0;
@@ -70,10 +74,10 @@ export async function submitAllDataRequest(geometry: Geometry, datatypes: number
             dataPrecipitation.push(data);
           }
 
-          return true; // Success
+          return true;
         } catch (error) {
           console.error(`Error processing datatype ${datatype}:`, error);
-          return false; // Failure
+          return false;
         }
       })
     );
@@ -91,6 +95,7 @@ export async function submitAllDataRequest(geometry: Geometry, datatypes: number
   for (let i = 0; i < datatypes.length; i += batchSize) {
     const batch = datatypes.slice(i, i + batchSize);
     const successes = await processBatch(batch);
+    handleLoad(((i + batchSize) / datatypes.length)*100 - 5);
     totalSuccesses += successes;
   }
 

@@ -54,6 +54,7 @@ export default function MapInterface() {
   const [apiResponse, setApiResponse] = useState<APIData | null>(exampleData);
   const mapRef = useRef<L.Map | null>(null);
   const [isPending, setIsPending] = useState(false);
+  const [load, setLoad] = useState(0);
 
   const handleMapClick = useCallback(
     (latlng: L.LatLng) => {
@@ -75,6 +76,10 @@ export default function MapInterface() {
     [inputType]
   );
 
+  const handleLoad = (value: number) => {
+    setLoad(value);
+  };
+
   const handleSubmit = async (value: number) => {
     if (!mapData) return;
     setIsPending(true);
@@ -87,10 +92,11 @@ export default function MapInterface() {
           : [mapData.coordinates as number[][]],
     };
 
-    const response = await dataRequest(geometry, value);
-    console.log(response);
-
-    console.log(geometry);
+    const response = await dataRequest({
+      geometry,
+      accuracy: value,
+      handleLoad,
+    });
     setIsPending(false);
   };
 
@@ -206,6 +212,8 @@ export default function MapInterface() {
                 isPending ||
                 (inputType === "Polygon" && mapData.coordinates.length < 3)
               }
+              load={load}
+              handleLoad={handleLoad}
             />
           </div>
         </div>
